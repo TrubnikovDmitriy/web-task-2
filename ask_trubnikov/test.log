@@ -1,0 +1,126 @@
+This is ApacheBench, Version 2.3 <$Revision: 1706008 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking 127.0.0.1 (be patient)
+
+
+Server Software:        gunicorn/19.4.5 // Обращался напрямую к порту, который слушал gunicorn,
+Server Hostname:        127.0.0.1       // обходя проксирование, так по идее должно было быть
+Server Port:            8001            // чуть быстрее, но все равно гораздо медленней кеширования
+
+Document Path:          /
+Document Length:        19 bytes
+
+Concurrency Level:      100
+Time taken for tests:   0.324 seconds
+Complete requests:      1000
+Failed requests:        0
+Total transferred:      144000 bytes
+HTML transferred:       19000 bytes
+Requests per second:    3083.63 [#/sec] (mean)
+Time per request:       32.429 [ms] (mean)
+Time per request:       0.324 [ms] (mean, across all concurrent requests)
+Transfer rate:          433.64 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   1.4      0       6
+Processing:     3   30   5.2     30      51
+Waiting:        3   30   5.2     30      51
+Total:          9   31   5.6     30      54
+
+Percentage of the requests served within a certain time (ms)
+  50%     30
+  66%     30
+  75%     30
+  80%     31
+  90%     32
+  95%     45
+  98%     51
+  99%     53
+ 100%     54 (longest request)
+This is ApacheBench, Version 2.3 <$Revision: 1706008 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking 127.0.0.1 (be patient)
+
+
+Server Software:        nginx/1.10.0 // Обращался к порту ngnix'a, запрашивая статику
+Server Hostname:        127.0.0.1
+Server Port:            80
+
+Document Path:          /logo.png
+Document Length:        10188 bytes
+
+Concurrency Level:      100
+Time taken for tests:   0.062 seconds
+Complete requests:      1000
+Failed requests:        0
+Total transferred:      10433000 bytes
+HTML transferred:       10188000 bytes
+Requests per second:    16214.29 [#/sec] (mean)
+Time per request:       6.167 [ms] (mean)
+Time per request:       0.062 [ms] (mean, across all concurrent requests)
+Transfer rate:          165198.89 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    1   1.1      0       5
+Processing:     1    5   2.5      5      10
+Waiting:        0    5   2.5      4      10
+Total:          2    6   2.7      6      12
+
+Percentage of the requests served within a certain time (ms)
+  50%      6
+  66%      7
+  75%      7
+  80%      8
+  90%     10
+  95%     11
+  98%     11
+  99%     11
+ 100%     12 (longest request)
+This is ApacheBench, Version 2.3 <$Revision: 1706008 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking 127.0.0.1 (be patient)
+
+
+Server Software:        nginx/1.10.0 // Обращался к ngnix'у со включенным кешированием
+Server Hostname:        127.0.0.1
+Server Port:            80
+
+Document Path:          /
+Document Length:        19 bytes
+
+Concurrency Level:      100
+Time taken for tests:   0.068 seconds
+Complete requests:      1000
+Failed requests:        0
+Total transferred:      150000 bytes
+HTML transferred:       19000 bytes
+Requests per second:    14789.18 [#/sec] (mean)
+Time per request:       6.762 [ms] (mean)
+Time per request:       0.068 [ms] (mean, across all concurrent requests)
+Transfer rate:          2166.38 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    1   1.7      0       7
+Processing:     3    5   2.2      4      12
+Waiting:        3    5   2.0      4      11
+Total:          3    6   3.3      4      16
+
+Percentage of the requests served within a certain time (ms)
+  50%      4
+  66%      7
+  75%      9
+  80%      9
+  90%     11
+  95%     14
+  98%     15
+  99%     15
+ 100%     16 (longest request)
