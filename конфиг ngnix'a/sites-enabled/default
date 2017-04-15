@@ -1,1 +1,67 @@
-/etc/nginx/sites-available/default
+upstream backend {
+
+	server 127.0.0.1:8001 weight=3;
+	server 127.0.0.1:8002 weight=1;
+
+	# Читай хайлоад - балансировка бекэндов
+	# По умолчанию используется Round-Robini с учётом весов?
+}
+
+
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+
+
+	root /home/dmitriy/TPark/Web/TPark_Web;
+
+	index index.html index.htm index.nginx-debian.html;
+
+	server_name my_server;
+
+	location / {
+		proxy_pass http://backend;
+		#
+		# Перенаправляем запрос на один из портов, указанных в backend.
+		# Затем на эти порты вешают либо другой server, либо gunicorn.
+		##
+
+		proxy_cache my_all;
+		proxy_cache_valid any 5m;
+		#
+		# Конфигурация кеша my_all задается в разделе http
+		# в конфиге энджинкса: /etc/nginx/nginx.conf
+		##
+		# proxy_cashe_valid any 5m - обязательный? какие параметры принимает?
+	}
+
+	location ~ /uploads/ {
+		root /home/dmitriy/TPark/Web/Server/ask_trubnikov;
+		error_page 404 = in_upload_not_found;
+	}
+
+	location ~*  .(html|jpg|jpeg|css|gif|png|pdf|js)$ {
+		root /home/dmitriy/TPark/Web/Server/ask_trubnikov/static;
+		error_page 404 = in_static_not_found;
+	}
+}
+
+
+# Virtual Host configuration for example.com
+#
+# You can move that to a different file under sites-available/ and symlink that
+# to sites-enabled/ to enable it.
+#
+#server {
+#	listen 80;
+#	listen [::]:80;
+#
+#	server_name example.com;
+#
+#	root /var/www/example.com;
+#	index index.html;
+#
+#	location / {
+#		try_files $uri $uri/ =404;
+#	}
+#}
