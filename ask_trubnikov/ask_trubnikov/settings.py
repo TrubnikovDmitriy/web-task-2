@@ -25,6 +25,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'question', # Dobavili na seminare, dalle migrates vizvat'
 ]
 
 
@@ -46,7 +48,7 @@ TEMPLATES = [
         'DIRS': [
             os.path.join(BASE_DIR, 'templates'),
             os.path.join(BASE_DIR, 'questions/templates'),
-            os.path.join(BASE_DIR, 'another_app/templates'),
+            os.path.join(BASE_DIR, 'question/templates'),
         ]
         ,
         'APP_DIRS': True,
@@ -111,4 +113,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/templates/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'question/templates'),
+]
