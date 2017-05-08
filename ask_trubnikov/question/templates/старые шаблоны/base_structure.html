@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block Logo %}
+    <a href="{% url 'index' %}">
+        <img src="{% static "img/logo.png"%}" height=110px width=110px>
+    </a>
+{% endblock %}
+
+{% block Search %}
+    <form class="form-search" action="#">
+        <div class="input-group">
+            <input type="text" class="form-control glyphicon" placeholder="Search for..." id="inp-search">
+            <span class="input-group-btn">
+                <button class="btn btn-primary glyphicon glyphicon-search" type="button"></button>
+            </span>
+        </div>
+    </form>
+{% endblock %}
+
+{% block Ask %}
+    <a href="{% url 'ask' %}">
+        <input class="btn btn-primary btn-lg" type="submit" value="Ask!" id="inp-search">
+    </a>
+{% endblock %}
+
+{% block Avatar %}
+     <a href="#">
+         <img src="{% static "img/noavatar.png" %}" class="img-circle img-responsive" width=100px>
+     </a>
+
+    <h1 id="UserName">{{ User.user.last_name }} {{ User.user.first_name }}</h1>
+     <a href="{% url 'login' %}">
+         <button type="button" class="btn btn-default btn-sm n1" title="Выход">
+             <span class="glyphicon glyphicon-log-out"></span>
+         </button>
+     </a>
+
+    <a href="#">
+        <button type="button" class="btn btn-default btn-sm n2" title="Настройки">
+            <span class="glyphicon glyphicon-cog"></span>
+        </button>
+    </a>
+
+    <form action="#inp-search">
+        <button type="submit" class="btn btn-default btn-sm n3" title="Найти">
+            <span class="glyphicon glyphicon-search"> </span>
+        </button>
+    </form>
+
+{% endblock %}
+
+
+{% block Tag_Block %}
+    <p class="tag-tittle"><i>популярные теги</i></p>
+    <br>
+    <div class="tag-block center-block">
+        {% for tag in tags_list %}
+            <span><a class="Tags" href="{% url 'tag' tag %}">{{ tag }}</a></span>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block Popular_User %}
+    <p class="tag-tittle"><i>Почётные пользователи</i></p>
+    <br>
+    <ul class="popular-user">
+        {% for best in best_user %}
+            <li ><a href="#">{{ best.user.first_name }} {{ best.user.last_name }}</a></li>
+        {% endfor %}
+    </ul>
+    <br>
+{% endblock %}

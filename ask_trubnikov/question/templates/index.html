@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block Title %}
+    <div class="row">
+        <span class="col-md-6 current-question">новые вопросы</span>
+        <a class="col-md-5 current-question" href="{% url 'hot' %}">горячие вопросы</a>
+    </div>
+{% endblock %}
+
+{% block Post_Block %}
+
+    <br>
+    {% for Post in post_list %}
+
+        <div class="box-question row">
+            <div class="col-md-3" id="AskingAvatar">
+                <a href="#">
+                    <img src="{% static "img/noimage.jpg" %}">
+                </a>
+                <div style="clear: left"></div>
+                <div class="btn-group btn-group-md Likes" data-toggle="buttons">
+                    <a class="btn btn-danger glyphicon glyphicon-thumbs-down"></a>
+                    <a class="btn btn disabled">
+                        {% if Post.rate > 0 %}+{{ Post.rate }}
+                        {% else %}{{ Post.rate }}
+                        {% endif %}
+                    </a>
+                    <a class="btn btn-success glyphicon glyphicon-thumbs-up"></a>
+                </div>
+            </div>
+            <div class="lead col-md-9">
+                <h3><a href="{% url 'question' Post.pk %}"> {{ Post.title }} </a></h3>
+                {{ Post.text }}
+                <br>
+                <span>
+                    <a style="font-size: 14pt" href="{% url 'question' Post.pk %}">
+                        <br>Посмотреть ответы
+                        <span class="badge">{{ Post.count_answer }}</span>
+                    </a>
+                </span>
+                <span class="tags_under_question"> Теги:
+                    {% for post_tag in Post.get_tags %}
+                        {% include "template_tags.html" %}
+                    {% endfor %}
+                </span>
+            </div>
+        </div>
+
+    {% empty %}
+
+        <div class="box-question row">
+            <h2 align="center"><i>
+                {% block EmptyPost %}
+                    К сожалению, запрашиваемого<br>списка постов пока что не существует
+                {% endblock %}
+            </i></h2>
+            <br>
+        </div>
+
+    {% endfor %}
+    <br>
+
+    <br>
+    {% block Paginator %}
+        {% include "template_paginator.html" %}
+    {% endblock %}
+
+{% endblock %}

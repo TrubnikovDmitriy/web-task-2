@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+    {% load staticfiles %}
+    <head>
+        <title>AskPage</title>
+        <link rel="shortcut icon" href="{% static "img/ico.ico" %}">
+        <link rel="stylesheet" href="{% static "bootstrap/css/bootstrap.css" %}">
+        <link rel="stylesheet" type="text/css" href="{% static "mycss.css" %}">
+    </head>
+
+    {% block Head %}
+
+        <div class="nav navbar-static-top">
+            <header class="row">
+                <div id="LOGO" class="navbar-brand col-md-1 col-md-offset-1">
+                    {% block Logo %}{% endblock %}
+                </div>
+
+                <div id="SEARCH" class="col-md-3">
+                    {% block Search %}{% endblock %}
+                </div>
+
+                <div id="ASK" class="col-md-3">
+                    {% block Ask %}{% endblock %}
+                </div>
+
+                <div id="AVATAR" class="col-md-4">
+                    {% block Avatar %}{% endblock %}
+                </div>
+             </header>
+        </div>
+
+    {% endblock %}
+
+    <hr class="mystyle"><br>
+
+    {% block Body %}
+        <div id="main">
+            <div class="container" id="question-body">
+                <div class="row">
+
+                    <div class="col-md-8" id="first-block">
+                        {% block Title %}{% endblock %}
+                        {% block Post_Block %}{% endblock %}
+                    </div>
+
+                    <div class="col-md-3 col-md-offset-1">
+                        <div>{% block Tag_Block %}{% endblock %}</div>
+                        <br><br>
+                        <div>{% block Popular_User %}{% endblock %}</div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+
+</html>

@@ -1,0 +1,40 @@
+﻿{% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block Post_Block %}
+
+    <h1><b><font size="+5">Новый вопрос</font></b></h1>
+
+    <br><br>
+
+    <form class="form-horizontal ask-form">
+
+        <div class="form-group">
+            <label class="col-md-2 control-label">Заголовок:</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control input-lg" placeholder="Введите текст своего вопроса">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2 control-label">Текст:</label>
+            <div class="col-md-10">
+                <textarea class="form-control ask-text input-lg" placeholder="Опишите проблему"></textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2 control-label">Теги:</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control input-lg" placeholder="#хештег">
+            </div>
+        </div>
+
+    </form>
+
+    <div id="ASK" class="col-md-4">
+        <a href="#"><input class="btn btn-success btn-lg ask-btn" type="submit" value="Спросить!"></a>
+    </div>
+
+{% endblock %}

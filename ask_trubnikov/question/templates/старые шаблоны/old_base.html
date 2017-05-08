@@ -1,0 +1,191 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>AskPage</title>
+
+    {% load staticfiles %}
+
+	<link rel="shortcut icon" href="{% static "img/ico.ico" %}">
+	<link rel="stylesheet" href="{% static "bootstrap/css/bootstrap.css" %}">
+	<link rel="stylesheet" type="text/css" href="{% static "mycss.css" %}">
+</head>
+
+
+<body>
+
+    {% block Head %}
+        <div class="nav navbar-static-top">
+            <header class="row">
+
+                <div id="LOGO" class="navbar-brand col-md-1 col-md-offset-1">
+
+                    {% block Logo %}
+                    <a href="{% url 'index' %}">
+                        <img src="{% static "img/logo.png"%}" height=110px width=110px>
+                    </a>
+                    {% endblock %}
+
+                </div>
+                <div id="SEARCH" class="col-md-3">
+
+                    {% block Search %}
+                    <form class="form-search" action="#">
+
+                        <div class="input-group">
+                            <input type="text" class="form-control glyphicon" placeholder="Search for..." id="inp-search">
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary glyphicon glyphicon-search" type="button"></button>
+                            </span>
+                        </div>
+
+                    </form>
+                    {% endblock %}
+
+                </div>
+                <div id="ASK" class="col-md-3">
+
+                    {% block Ask %}
+                        <a href="{% url 'ask' %}">
+                            <input class="btn btn-primary btn-lg" type="submit" value="Ask!" id="inp-search">
+                        </a>
+                    {% endblock %}
+
+                </div>
+                <div id="AVATAR" class="col-md-4">
+
+                    {% block Avatar %}
+
+                    <a href="#">
+                        <img src="{% static "img/noavatar.png" %}" class="img-circle img-responsive" width=100px>
+                    </a>
+
+                    <h1 id="UserName">{{ User.secondname }} {{ User.firstname }}</h1>
+
+                    <a href="{% url 'login' %}">
+                        <button type="button" class="btn btn-default btn-sm n1" title="Выход">
+                            <span class="glyphicon glyphicon-log-out"></span>
+                        </button>
+                    </a>
+
+                    <a href="#">
+                        <button type="button" class="btn btn-default btn-sm n2" title="Настройки">
+                            <span class="glyphicon glyphicon-cog"></span>
+                        </button>
+                    </a>
+
+                    <form action="#inp-search">
+                        <button type="submit" class="btn btn-default btn-sm n3" title="Найти">
+                            <span class="glyphicon glyphicon-search"> </span>
+                        </button>
+                    </form>
+
+                    {% endblock %}
+
+                </div>
+
+            </header>
+        </div>
+    {% endblock %}
+
+	<hr class="mystyle"><br>
+
+    {% block Body %}
+        <div id="main">
+            <div class="container" id="question-body">
+                <div class="row">
+
+                    <div class="col-md-8" id="first-block">
+
+                        {% block Title %}
+                        {% endblock %}
+
+                        {% block First-Block %}
+
+                            <br>
+                            {% for Post in post_list %}
+
+                                <div class="box-question row">
+                                    <div class="col-md-3" id="AskingAvatar">
+                                        <a href="#">
+                                            <img src="{% static "img/noimage.jpg" %}">
+                                        </a>
+                                        <div style="clear: left"></div>
+                                        <div class="btn-group btn-group-md Likes" data-toggle="buttons">
+                                            <a class="btn btn-danger glyphicon glyphicon-thumbs-down"></a>
+                                            <a class="btn btn disabled">{{ Post.mark }}</a>
+                                            <a class="btn btn-success glyphicon glyphicon-thumbs-up"></a>
+                                        </div>
+                                    </div>
+
+                                    <div class="lead col-md-9">
+                                        <h3><a href="{% url 'question' forloop.counter %}"> {{ Post.title }} </a></h3>
+                                            {{ Post.text }}
+                                        <br>
+                                        <span>
+                                            <a style="font-size: 14pt" href="{% url 'question' forloop.counter %}">
+                                                <br>Посмотреть ответы
+                                                <span class="badge">{{ Post.amount_answer }}</span>
+                                            </a>
+                                        </span>
+                                        <span class="tags_under_question"> Теги:
+                                            {% for post_tag in Post.tags %}
+                                                {% include "template_tags.html" %}
+                                            {% endfor %}
+                                        </span>
+                                    </div>
+                                </div>
+
+                            {% endfor %}
+
+
+
+                            <br><br>
+
+                            {% block Paginator %}
+                                {% include "template_paginator.html" %}
+                            {% endblock %}
+
+                        {% endblock %}
+
+                    </div>
+
+
+                    <div class="col-md-3 col-md-offset-1 tag-tittle">
+
+
+                        <div>
+                            {% block Tag-Block %}
+                                <p class="tag-tittle tag-tittle"><i>популярные теги</i></p>
+                                <br>
+                                <div class="tag-block center-block">
+                                    {% for tag in tags_list %}
+                                        <span><a class="Tags" href="{% url 'rus_tag' tag %}">{{ tag }}</a></span>
+                                    {% endfor %}
+                                </div>
+                            {% endblock %}
+                        </div>
+
+                        <br><br>
+
+                        <div>
+                            {% block PopularUser %}
+                                <p class="tag-tittle"><i>Почётные пользователи</i></p>
+                                <br>
+                                <ul class="popular-user">
+                                    {% for best in best_user %}
+                                        <li ><a href="#">{{ best }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                                <br>
+                            {% endblock %}
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+﻿{% extends "old_base.html" %}
+
+{% load staticfiles %}
+
+{% block Avatar %}
+     <a href="#">
+         <img src="{% static "img/noavatar.png" %}" class="img-circle img-responsive" width=100px>
+     </a>
+
+    <h1 id="UserName">{{ User.secondname }} {{ User.firstname }}</h1>
+     <a href="{% url 'login' %}">
+         <button type="button" class="btn btn-default btn-sm n1" title="Выход">
+             <span class="glyphicon glyphicon-log-out"></span>
+         </button>
+     </a>
+
+    <a href="#">
+        <button type="button" class="btn btn-default btn-sm n2" title="Настройки">
+            <span class="glyphicon glyphicon-cog"></span>
+        </button>
+    </a>
+
+    <form action="#inp-search">
+        <button type="submit" class="btn btn-default btn-sm n3" title="Найти">
+            <span class="glyphicon glyphicon-search"> </span>
+        </button>
+    </form>
+
+{% endblock %}
+
+{% block First-Block %}
+     <br>
+    {% for Post in post_list %}
+
+        <div class="box-question row">
+            <div class="col-md-3" id="AskingAvatar">
+                <a href="#">
+                    <img src="{% static "img/noimage.jpg" %}">
+                </a>
+                <div style="clear: left"></div>
+                <div class="btn-group btn-group-md Likes" data-toggle="buttons">
+                    <a class="btn btn-danger glyphicon glyphicon-thumbs-down"></a>
+                    <a class="btn btn disabled">
+                        {% if Post.likes > 0 %}+{{ Post.likes }}
+                        {% else %}{{ Post.likes }}
+                        {% endif %}
+                    </a>
+                    <a class="btn btn-success glyphicon glyphicon-thumbs-up"></a>
+                </div>
+            </div>
+            <div class="lead col-md-9">
+                <h3><a href="{% url 'question' Post.pk %}"> {{ Post.title }} </a></h3>
+                {{ Post.text }}
+                <br>
+                <span>
+                    <a style="font-size: 14pt" href="{% url 'question' Post.pk %}">
+                        <br>Посмотреть ответы
+                        <span class="badge">{{ Post.amount_answer }}</span>
+                    </a>
+                </span>
+                <span class="tags_under_question"> Теги:
+                    {% for post_tag in Post.get_tags %}
+                        {% include "template_tags.html" %}
+                    {% endfor %}
+                </span>
+            </div>
+        </div>
+
+    {% empty %}
+
+        <div class="box-question row">
+            <h2 align="center"><i>
+                {% block EmptyPost %}
+                    К большому сожалению, запрашиваемого списка постов пока что не существует
+                {% endblock %}
+            </i></h2>
+            <br>
+        </div>
+
+    {% endfor %}
+
+    <br><br>
+
+    {% block Paginator %}
+        {% include "template_paginator.html" %}
+    {% endblock %}
+
+{% endblock %}
