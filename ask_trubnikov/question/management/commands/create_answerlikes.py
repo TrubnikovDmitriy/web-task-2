@@ -24,7 +24,10 @@ class Command(BaseCommand):
         while (i < likes_count):
             a_rand = int(random() * author_list.count() - 1)
             ans_rand = int(random() * answer_list.count() - 1)
-            like = AnswerLikes(author=author_list[a_rand], answer=answer_list[ans_rand], sign=fake.boolean())
+            like = AnswerLikes(
+                author=author_list[a_rand],
+                answer=answer_list[ans_rand],
+                sign=fake.boolean())
             try:
                 like.save()
                 i += 1

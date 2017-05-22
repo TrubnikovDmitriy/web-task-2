@@ -31,7 +31,7 @@
                     {{ Question.text }}
                 <br><br>
 
-                <span class="tags_under_single_question"> Теги:
+                <span class="tags_under_single_question"><b>Теги:</b>
                     {% for post_tag in Question.tags.all %}
                         {% include "template_tags.html" %}
                     {% endfor %}

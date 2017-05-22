@@ -28,7 +28,7 @@ class QuestionManager(models.Manager):
         try:
             return self.get(pk=id)
         except Question.DoesNotExist:
-            return False
+            return None
 
 
 class TagsManager(models.Manager):

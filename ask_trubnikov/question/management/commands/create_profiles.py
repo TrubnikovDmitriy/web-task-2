@@ -22,22 +22,29 @@ class Command(BaseCommand):
 
         i = 0
         while (i < users_count):
-
-            if (fake_en.boolean()): #male
-                user = User(password=fake_en.password(), is_superuser=False,
-                            first_name=fake_ru.first_name_male(),
-                            last_name=fake_ru.last_name_male(),
-                            email=fake_en.email(), is_staff=False,
-                            is_active=True, username=fake_en.user_name())
-            else: #female
-                user = User(password=fake_en.password(), is_superuser=False,
-                            first_name=fake_ru.first_name_female(),
-                            last_name=fake_ru.last_name_female(),
-                            email=fake_en.email(), is_staff=False,
-                            is_active=True, username=fake_en.user_name())
-
             try:
-                user.save()
+                if (fake_en.boolean()): #male
+                    user = User.objects.create_user(
+                        password='trubnikov',
+                        is_superuser=False,
+                        first_name=fake_ru.first_name_male(),
+                        last_name=fake_ru.last_name_male(),
+                        email=fake_en.email(),
+                        is_staff=False,
+                        is_active=True,
+                        username=fake_en.user_name()
+                    )
+                else: #female
+                    user = User.objects.create_user(
+                        password='trubnikov',
+                        is_superuser=False,
+                        first_name=fake_ru.first_name_female(),
+                        last_name=fake_ru.last_name_female(),
+                        email=fake_en.email(),
+                        is_staff=False,
+                        is_active=True,
+                        username=fake_en.user_name()
+                    )
                 profile = Profile(user=user)
                 profile.save()
                 i += 1

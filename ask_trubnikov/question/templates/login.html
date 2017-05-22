@@ -1,81 +1,57 @@
 ﻿{% extends "base.html" %}
 {% load staticfiles %}
 
-{#{% block Avatar %}#}
-{##}
-{#    <div class="btn-group-vertical">#}
-{#        <a href="{% url 'login' %}"><button type="button" class="btn btn-primary ask-btn reg-log">Sign in</button></a>#}
-{#        <a href="{% url 'signup' %}"><button type="button" class="btn btn-primary ask-btn reg-log">Sign up</button></a>#}
-{#    </div>#}
-{##}
-{#    <a href="{% url 'index' %}">#}
-{#        <button type="button" class="btn btn-default btn-sm n1" title="Вход">#}
-{#            <span class="glyphicon glyphicon-log-in"></span>#}
-{#        </button>#}
-{#    </a>#}
-{#    <a href="#">#}
-{#        <button type="button" class="btn btn-default btn-sm n2" title="Настройки">#}
-{#            <span class="glyphicon glyphicon-cog"></span>#}
-{#        </button>#}
-{#    </a>#}
-{##}
-{#    <form action="#inp-search">#}
-{#        <button type="submit" class="btn btn-default btn-sm n3" title="Найти">#}
-{#            <span class="glyphicon glyphicon-search"> </span>#}
-{#        </button>#}
-{#    </form>#}
-{##}
-{#{% endblock %}#}
 
 {% block Post_Block %}
 
-				<h1 class="col-md-9">
-					<font size="+4">
-						<b>Войти в аккаунт</b>
-						<br><br>
-					</font>
-				</h1>
+    <h1 class="col-md-9">
+        <font size="+4">
+            <b>Войти в аккаунт</b>
+            {% if not auth_error %}
+                <br><br>
+            {% endif %}
+        </font>
+    </h1>
+    {% if auth_error %}
+        <font size="+2" color="#8b0000" class="col-md-10">
+            <b>Неверный логин/пароль</b>
+            <br><br>
+        </font>
+    {% endif %}
 
 
-				<form class="form-horizontal log-form" action="./login_error.html">
+    <form class="form-horizontal log-form" action="{% url 'login' %}" method="POST">
 
-					<div class="col-md-10"></div>
+        {% csrf_token %}
+        {% for form in forms %}
+            <div class="form-group {% if form.errors %}has-error{% endif %}">
+                <span class="col-md-3 control-label">
+                    {{ form.label_tag }}
+                </span>
+                <span class="col-md-6">
+                    {{ form }}
+                    {{ form.errors }}
+                </span>
+            </div>
+        {% endfor %}
 
-				  	<div class="form-group">
-						<label class="col-md-3 control-label">Адрес email:</label>
-				    	<div class="col-md-6">
-				      		<input type="email" class="form-control input-lg" required="required" placeholder="Введите email"  maxlength="30">
-				    	</div>
-				  	</div>
-				  
-				  	<div class="form-group">
-				    	<label class="col-md-3 control-label">Пароль:</label>
-				    	<div class="col-md-6">
-				      		<input type="password" class="form-control input-lg" required="required" placeholder="Введите пароль"  maxlength="40">
-				    	</div>
-				  	</div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-2">
+                <div class="checkbox">
+                    <label><input type="checkbox"> Запомнить</label>
+                </div>
+            </div>
+        </div>
 
-				  	<div class="form-group">
-				    	<div class="col-md-offset-2 col-md-2">
-				      		<div class="checkbox">
-				        		<label>
-				        			<input type="checkbox"> Запомнить
-				        		</label>
-				      		</div>
-				    	</div>
-				  	</div>
+        <div class="col-md-2 col-md-offset-1">
+            <input class="btn btn-primary btn-lg ask-btn" type="submit" value="Войти!">
+        </div>
 
+        <span class="col-md-5 col-md-offset-2 create_new_acc">
+            <a href="{% url 'signup' %}"><br> Создать новый аккаунт</a>
+        </span>
 
-				  	<div class="col-md-2 col-md-offset-1">
-						<a><input class="btn btn-primary btn-lg ask-btn" type="submit" value="Войти!"></a>
-					</div>
-
-
-					<span class="col-md-5 col-md-offset-2 create_new_acc">
-						<a href="{% url 'signup' %}"><br> Создать новый аккаунт</a>
-					</span>
-
-				</form>
+    </form>
 
 
 {% endblock %}
