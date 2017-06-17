@@ -1,0 +1,136 @@
+﻿{% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block Post_Block %}
+    {% if Question %}
+
+        <br>
+        <div class="single-question row">
+            <div class="col-md-3" id="AnsweringAvatar">
+                <a href="#">
+                    {% if Question.author.avatar %}
+                        <div id="AnsweringNoStdAvatar">
+                            <img src="{{ Question.author.avatar.url }}">
+                        </div>
+                    {% else %}
+                        <img src="{% static "uploads/user_avatar/std_question_avatar.jpg" %}">
+                    {% endif %}
+                </a>
+                <div style="clear:left"></div>
+
+                <div class="btn-group btn-group-md Answer-Likes" data-toggle="buttons">
+                    {% with Post=Question %}
+                        {% include "template_likes.html" %}
+                    {% endwith %}
+                </div>
+
+            </div>
+
+            <div class="lead co col-md-9">
+
+                <h2><b>№{{ id }} - {{ Question.title }}</b></h2>
+                    {{ Question.text }}
+                <br><br>
+
+                <span class="tags_under_single_question"><b>Теги:</b>
+                    {% for post_tag in Question.tags.all %}
+                        {% include "template_tags.html" %}
+                    {% endfor %}
+                </span>
+
+            </div>
+        </div>
+
+        <hr class="mystyle">
+
+        <h2><b><i>Ответы:</i></b></h2>
+
+
+        {% for Answer in Answers %}
+            <div class="box-answer row" id="answer_id{{ Answer.id }}">
+                <div class="col-md-3" id="AskingAvatar">
+                    <a href="#">
+                        {% if Answer.author.avatar %}
+                        <div id="AskingNoStdAvatar">
+                            <img src="{{ Answer.author.avatar.url }}">
+                        </div>
+                        {% else %}
+                            <img src="{% static "uploads/user_avatar/std_question_avatar.jpg" %}">
+                        {% endif %}
+                    </a>
+                    <div style="clear: left"></div>
+
+                    <div class="btn-group btn-group-md Likes" data-toggle="buttons">
+{#                        <a class="btn btn-danger glyphicon glyphicon-thumbs-down"></a>#}
+{#                        <a class="btn btn disabled">#}
+{#                            {% if Answer.rate > 0 %}+{{ Answer.rate }}#}
+{#                            {% else %}{{ Answer.rate }}#}
+{#                            {% endif %}#}
+{#                        </a>#}
+{#                        <a class="btn btn-success glyphicon glyphicon-thumbs-up"></a>#}
+                    </div>
+                </div>
+
+                <br>
+
+                <div class="lead co col-md-9">
+                    {{ Answer.text }}
+                    <br><br>
+                </div>
+
+                {% include "template_checkbox.html" %}
+            </div>
+        {% empty %}
+
+            <div class="box-question row">
+                <h2 align="center"><i>
+                    {% block EmptyPost %}
+                        К сожалению, ответов на этот<br>вопрос пока что нет.
+                    {% endblock %}
+                </i></h2>
+                <br>
+            </div>
+
+        {% endfor %}
+
+        {% block Paginator %}
+            {% with post_list=Answers %}
+                {% include "template_paginator.html" %}
+            {% endwith %}
+        {% endblock %}
+
+        <hr class="mystyle">
+        <br><br>
+
+        {% if User.is_authenticated %}
+            <form action="{% url 'question' id %}" method="POST">
+                {% csrf_token %}
+                {{ answer_form.text }}
+                    <div class="col-md-4 col-md-offset-3">
+                        <input class="btn btn-primary btn-lg ask-btn" type="submit" value="Ответить!">
+                    </div>
+            </form>
+
+        {% else %}
+            <a href="/login/?next={% url 'question' id %}">
+                <div class="col-md-4 col-md-offset-3">
+                    <input class="btn btn-primary btn-lg ask-btn" type="submit" value="Войти!">
+                </div>
+            </a>
+        {% endif %}
+
+
+    {% else %}
+
+        <div class="box-question row">
+            <h2 align="center">
+                <i>Такого вопроса не существует.<br>Задайте его первым!</i>
+            </h2>
+            <br>
+        </div>
+
+    {% endif %}
+    {% include "script_likes.html" %}
+    {% include "script_check.html" %}
+{% endblock %}

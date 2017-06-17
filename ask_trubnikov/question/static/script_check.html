@@ -1,0 +1,22 @@
+<script type="text/javascript">
+
+    $(document).ready(function() {
+    {# Выполнение скрипта, лишь после полной загрузки страницы #}
+
+        $('.js-check').click(function() {
+            var $this = $(this),
+                answer_id = $this.attr('data-id'),
+                qstn_author_id = $this.attr('data-qstn_author_id');
+
+            $.post('/checked/', {
+                answer_id: answer_id,
+                author_id: qstn_author_id
+            }).done(function(data) {
+                $('#check_'+answer_id).prop('checked', data.checked)
+
+            });
+            return false;
+        });
+    });
+
+</script>

@@ -1,0 +1,11 @@
+<div class="helpful-check js-check"
+     data-id="{{ Answer.pk }}"
+     data-qstn_author_id="{{ Question.author.pk }}">
+    <label>Пометить ответ как верный!
+        <input type="checkbox" name="helpful" id="check_{{ Answer.id }}"
+            {% if Question.author.user != User %}
+               title="Только автор вопроса может помечать ответы"
+               disabled {% endif %}
+            {% if Answer.checked %} checked {% endif %}>
+    </label>
+</div>

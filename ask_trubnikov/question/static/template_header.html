@@ -1,0 +1,84 @@
+{% load staticfiles %}
+{% load static %}
+
+<div class="nav navbar-static-top">
+    <header class="row">
+
+        <div id="LOGO" class="navbar-brand col-md-1 col-md-offset-1">
+            <a href="{% url 'index' %}">
+                <img src="{% static "img/logo.png"%}" height=110px width=110px>
+            </a>
+        </div>
+
+        <div id="SEARCH" class="col-md-3">
+            <form class="form-search" action="#">
+                <div class="input-group">
+                    <input type="text" class="form-control glyphicon" placeholder="Search for..." id="inp-search">
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary glyphicon glyphicon-search" type="button"></button>
+                    </span>
+                </div>
+            </form>
+        </div>
+
+        <div id="ASK" class="col-md-3">
+            <a href="{% url 'ask' %}">
+                <input class="btn btn-primary btn-lg" type="submit" value="Ask!" id="inp-search">
+            </a>
+        </div>
+
+        <div id="AVATAR" class="col-md-4">
+            {% if User.is_authenticated %}
+
+                <a href="#">
+                        {% if User.profile.avatar %}
+                            <img src="{{ User.profile.avatar.url }}" class="img-circle img-responsive" width=100px>
+                        {% else %}
+                            <img src="{% static "img/noavatar.png" %}" class="img-circle img-responsive" width=100px>
+                        {% endif %}
+                </a>
+
+                <h1 id="UserName">{{ User.first_name }} {{ User.last_name }}</h1>
+
+                <a href="{% url 'logout' %}">
+                    <button type="button" class="btn btn-default btn-sm n1" title="Выход">
+                        <span class="glyphicon glyphicon-log-out"></span>
+                    </button>
+                </a>
+
+                <a href="{% url 'settings' %}">
+                    <button type="button" class="btn btn-default btn-sm n2" title="Настройки">
+                        <span class="glyphicon glyphicon-cog"></span>
+                    </button>
+                </a>
+
+                <form action="#inp-search">
+                    <button type="submit" class="btn btn-default btn-sm n3" title="Найти">
+                        <span class="glyphicon glyphicon-search"> </span>
+                    </button>
+                </form>
+
+            {% else %}
+
+                <div class="btn-group-vertical">
+                    <a href="{% url 'login' %}"><button type="button" class="btn btn-primary ask-btn reg-log">Sign in</button></a>
+                    <a href="{% url 'signup' %}"><button type="button" class="btn btn-primary ask-btn reg-log">Sign up</button></a>
+                </div>
+
+                <a href="{% url 'login' %}">
+                    <button type="button" class="btn btn-default btn-sm n1" title="Вход">
+                        <span class="glyphicon glyphicon-log-in"></span>
+                    </button>
+                </a>
+
+                <form action="#inp-search">
+                    <button type="submit" class="btn btn-default btn-sm n2" title="Найти">
+                        <span class="glyphicon glyphicon-search"> </span>
+                    </button>
+                </form>
+
+            {% endif %}
+        </div>
+
+    </header>
+</div>

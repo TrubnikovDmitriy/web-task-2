@@ -38,7 +38,10 @@ class TagsManager(models.Manager):
 
 class Profile(models.Model):
     user = models.OneToOneField(User)
-    avatar = models.ImageField(upload_to='uploads/user_avatar', blank=True)
+    avatar = models.ImageField(
+        upload_to='user_avatar/%Y',
+        default='user_avatar/std_user_avatar.png',
+    )
     objects = ProfileManager()
 
     def __unicode__(self):
@@ -68,6 +71,25 @@ class Question(models.Model):
     def get_tags(self):
         return self.tags.all()[:3]
 
+    def add_tag(self, tag_string):
+        tag_list = tag_string.split("#")
+        print tag_list
+        all_tags = Tags.objects.all()
+        for tag in tag_list:
+            if len(tag) != 0:
+                try:
+                    self.tags.add(all_tags.get(tag=tag))
+                except Tags.DoesNotExist:
+                    new_tag = Tags(tag=tag)
+                    new_tag.save()
+                    self.tags.add(new_tag)
+
+    def update_rate(self):
+        all_likes = QuestionLikes.objects.filter(post=self)
+        self.rate = all_likes.count() - 2 * all_likes.filter(sign=False).count()
+        self.save()
+        return self.rate
+
 
 class QuestionLikes(models.Model):
     author = models.ForeignKey(Profile)
@@ -83,6 +105,7 @@ class Answer(models.Model):
     author = models.ForeignKey(Profile)
     question = models.ForeignKey(Question)
     rate = models.IntegerField(default=0)
+    checked = models.BooleanField(default=False)
 
 
 class AnswerLikes(models.Model):

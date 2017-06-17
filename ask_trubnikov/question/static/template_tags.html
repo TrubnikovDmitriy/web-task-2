@@ -1,0 +1,5 @@
+{% if not forloop.last %}
+    <a class="answer_under_question" href="{% url 'tag' post_tag %}">{{ post_tag }}</a>,
+{% else %}
+    <a class="answer_under_question" href="{% url 'tag' post_tag %}">{{ post_tag }}</a>
+{% endif %}

@@ -1,0 +1,31 @@
+﻿{% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block Post_Block %}
+
+    <h1><b><font size="+5">Новый вопрос</font></b></h1>
+
+    <br><br>
+
+    <form class="form-horizontal ask-form" method="POST" action="{% url 'ask' %}">
+        {% csrf_token %}
+
+        {% for form in forms.visible_fields %}
+            <div class="form-group {% if form.errors %}has-error{% endif %}">
+                <span class="col-md-2 control-label">{{ form.label_tag }}</span>
+                <div class="col-md-10">
+                    {{ form }}
+                    {{ form.errors }}
+                </div>
+            </div>
+        {% endfor %}
+
+        <div id="ASK" class="col-md-4">
+            <input class="btn btn-success btn-lg ask-btn" type="submit" value="Спросить!">
+        </div>
+
+    </form>
+
+
+{% endblock %}

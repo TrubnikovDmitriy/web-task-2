@@ -1,0 +1,22 @@
+<script type="text/javascript">
+
+    $(document).ready(function() {
+    {# Выполнение скрипта, лишь после полной загрузки страницы #}
+
+        $('.js-likes').click(function() {
+            var $this = $(this),
+                post_id = $this.attr('data-id'),
+                sign = $this.attr('data-sign');
+            $.post('/vote/', {
+                post_id: post_id,
+                sign: sign
+            }).done(function(data) {
+                if (data.new_rate > 0)
+                    data.new_rate = '+' + data.new_rate;
+                $("#quest_like_"+post_id).html(data.new_rate);
+            });
+            return false;
+        });
+    });
+
+</script>

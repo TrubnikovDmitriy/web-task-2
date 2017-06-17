@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block Title %}
+    <h1 class="col-md-10">
+        <font size="+4">
+            <b>Настройки: <i>{{ User.first_name }}</i></b><br>
+        </font>
+        {% if is_success %}
+            <font size="+3" color="#006400">
+                <b><i>Изменения успешно сохранены!</i></b>
+                <br><br>
+            </font>
+        {% else %}
+            <br>
+        {% endif %}
+    </h1>
+{% endblock %}
+
+
+{% block Post_Block %}
+    <form class="form-horizontal log-form" action="{% url 'settings' %}"
+          method="POST" enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        {% for form in forms %}
+            {% if form != forms.avatar %}
+
+                <div class="form-group {% if form.errors %}has-error{% endif %}">
+                    <label class="col-md-3 control-label">
+                        {{ form.label_tag }}
+                    </label>
+                    <span class="col-md-7">
+                        {{ form }}
+                        {{ form.errors }}
+                    </span>
+                </div>
+
+            {% endif %}
+        {% endfor %}
+
+        <div class="form-group file_form">
+            <span class="col-md-3 control-label">
+                {{ forms.avatar.label_tag }}
+            </span>
+            {% if User.profile.avatar %}
+                <img src="{{ User.profile.avatar.url }}"
+                     class="img-thumbnail img-responsive"
+                     width=250px>
+            {% else %}
+                <img src="{% static "img/noavatar.png" %}"
+                     class="img-thumbnail img-responsive"
+                     width=250px>
+            {% endif %}
+            <div class="col-md-7 col-md-offset-3 file_form">
+                {{ forms.avatar }}
+                {{ forms.avatar.errors }}
+            </div>
+        </div>
+
+        <div class="col-md-2 col-md-offset-3">
+            <a><input class="btn btn-primary btn-lg ask-btn"
+                      type="submit"
+                      value="Сохранить изменения!">
+            </a>
+        </div>
+
+    </form>
+{% endblock %}

@@ -1,0 +1,15 @@
+﻿{% extends "index.html" %}
+{% load staticfiles %}
+
+
+{% block Title %}
+    <div>
+        <h1 class="current-question"><b>Τags:</b>
+            <span class="tag-search">{{ tag }}</span>
+        </h1>
+    </div>
+{% endblock %}
+
+{% block EmptyPost %}
+    Ни один из существующих постов<br>не содержит тега <b>{{ tag }}</b>.
+{% endblock %}

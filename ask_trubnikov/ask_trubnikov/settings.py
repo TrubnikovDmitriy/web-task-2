@@ -46,7 +46,8 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(BASE_DIR, 'templates'),
-            os.path.join(BASE_DIR, 'question/templates'),
+            os.path.join(BASE_DIR, 'question/static'),
+            os.path.join(BASE_DIR, 'uploads'),
         ]
         ,
         'APP_DIRS': True,
@@ -117,9 +118,13 @@ FAKER_PROVIDERS = None
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_URL = '/templates/'
+STATIC_URL = '/static/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'question/static/uploads')
+MEDIA_URL = '/static/uploads/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-    os.path.join(BASE_DIR, 'question/templates'),
+    # os.path.join(BASE_DIR, 'static'),
+    # os.path.join(BASE_DIR, 'uploads'),
+    # os.path.join(BASE_DIR, 'question/static'),
 ]
