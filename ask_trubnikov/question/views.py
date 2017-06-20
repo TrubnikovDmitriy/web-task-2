@@ -30,8 +30,6 @@ def index(request):
     post_list = listing(request, new_list, 5)
     return render(request, 'index.html', {
         'User': request.user,
-        'tags_list': Tags.objects.get_popular()[:16],
-        'best_user': Profile.objects.get_best()[:7],
         'post_list': post_list,
     })
 
@@ -41,8 +39,6 @@ def hot(request):
     post_list = listing(request, hot_list, 5)
     return render(request, 'hot.html', {
         'User': request.user,
-        'tags_list': Tags.objects.get_popular()[:16],
-        'best_user': Profile.objects.get_best()[:7],
         'post_list': post_list,
     })
 
@@ -52,8 +48,6 @@ def tag(request, tags):
     return render(request, 'tag.html', {
         'tag': tags,
         'User': request.user,
-        'tags_list': Tags.objects.get_popular()[:16],
-        'best_user': Profile.objects.get_best()[:7],
         'post_list': listing(request, tag_list, 3)
     })
 
@@ -86,8 +80,6 @@ def question(request, question_id):
     post_list = listing(request, answer_list, 3)
     return render(request, 'single.html', {
         'User': request.user,
-        'tags_list': Tags.objects.get_popular()[:16],
-        'best_user': Profile.objects.get_best()[:7],
         'Question': quest,
         'Answers': post_list,
         'id': question_id,
@@ -119,8 +111,6 @@ def signup(request):
         user_form = SignForm()
     return render(request, 'reg.html', {
         'User': request.user,
-        'tags_list': Tags.objects.get_popular()[:16],
-        'best_user': Profile.objects.get_best()[:7],
         'forms': user_form,
     })
 
@@ -139,8 +129,6 @@ def ask(request):
         question_form = QuestionForm()
     return render(request, 'ask.html', {
         'User': request.user,
-        'tags_list': Tags.objects.get_popular()[:16],
-        'best_user': Profile.objects.get_best()[:7],
         'forms': question_form
     })
 
@@ -168,8 +156,6 @@ def v_login(request):
         form = LoginForm()
     return render(request, 'login.html', {
         'User': request.user,
-        'tags_list': Tags.objects.get_popular()[:16],
-        'best_user': Profile.objects.get_best()[:7],
         'forms': form,
         'auth_error': auth_error,
         'redirect_path': request.GET.get('next', '/')
@@ -211,8 +197,6 @@ def settings(request):
         is_success = request.GET.get('success', default=False)
     return render(request, 'settings.html', {
         'User': request.user,
-        'tags_list': Tags.objects.get_popular()[:16],
-        'best_user': Profile.objects.get_best()[:7],
         'forms': user_form,
         'is_success': is_success
     })
@@ -268,7 +252,7 @@ def checked(request):
             answer.checked = not answer.checked
             answer.save()
         else:
-            print("Лайк от не автора!")
+            print("Отметка не от автора!")
 
         return JsonResponse({
             'checked': answer.checked

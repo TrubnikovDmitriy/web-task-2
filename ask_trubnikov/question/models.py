@@ -11,7 +11,7 @@ class ProfileManager(models.Manager):
         return self.order_by('user__date_joined')
 
     def get_best(self):
-        return self.annotate(num_answer=Count('answer')).order_by('-num_answer')
+        return self.annotate(activity=Count('answer')+Count('question')).order_by('-activity')
 
 
 class QuestionManager(models.Manager):
