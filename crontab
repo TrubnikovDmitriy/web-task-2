@@ -1,0 +1,4 @@
+# Каждые 5 минут обновляем кэш через Management команды
+
+*/5 *	* * *	cd ~/TPark/Web/Server/ask_trubnikov && ./manage.py update_cache
+

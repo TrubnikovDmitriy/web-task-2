@@ -1,15 +1,20 @@
 # -*- coding: utf-8 -*-
 from django import template
 from question import models
+from django.core.cache import cache
 
 register = template.Library()
 
 
 @register.inclusion_tag('template_tag_box.html')
 def show_tags_users():
-    tags_list = models.Tags.objects.get_popular()[:16]
-    best_user = models.Profile.objects.get_best()[:7]
-    print("Cache")
+    # tags_list = models.Tags.objects.get_popular()[:16]
+    # best_user = models.Profile.objects.get_best()[:7]
+
+    # Кеш обновлять будем извне через сron и managment.commands, каждые 5 минут
+    tags_list = cache.get('update_tags', None)
+    best_user = cache.get('update_users', None)
+
     return {
         'tags_list': tags_list,
         'best_user': best_user
