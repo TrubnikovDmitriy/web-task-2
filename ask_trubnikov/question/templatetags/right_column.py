@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from django import template
-from question import models
 from django.core.cache import cache
+from question.models import QuestionLikes, Profile
+from django.core.exceptions import ObjectDoesNotExist
 
 register = template.Library()
 
@@ -34,3 +35,12 @@ def show_tags_users():
 #         'best_user': Profile.objects.get_best()[:7],
 #         'post_list': post_list,
 #     })
+
+
+@register.filter(name='disable')
+def disable(question, user):
+    profile = Profile.objects.get(user=user)
+    try:
+        return QuestionLikes.objects.get(post=question, author=profile).sign
+    except ObjectDoesNotExist:
+        return None

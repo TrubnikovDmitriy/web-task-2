@@ -11,9 +11,20 @@
                 post_id: post_id,
                 sign: sign
             }).done(function(data) {
+
                 if (data.new_rate > 0)
                     data.new_rate = '+' + data.new_rate;
                 $("#quest_like_"+post_id).html(data.new_rate);
+
+                if (sign==='True') {
+                    $("#dislike_id_" + post_id).removeClass('disabled');
+                    $("#like_id_" + post_id).addClass('disabled');
+                }
+                if (sign==='False') {
+                        $("#dislike_id_" + post_id).addClass('disabled');
+                    $("#like_id_" + post_id).removeClass('disabled');
+                }
+
             });
             return false;
         });

@@ -1,8 +1,17 @@
 {% if User.is_authenticated %}
 
-    <a class="btn btn-danger glyphicon glyphicon-thumbs-down js-likes"
-        href="#" data-sign="{{ False }}" data-id="{{ Post.pk }}">
-    </a>
+    {% load right_column %}
+    {% if Post|disable:User == False %}
+        <a class="btn btn-danger glyphicon glyphicon-thumbs-down js-likes disabled"
+           data-sign="{{ False }}" data-id="{{ Post.pk }}"
+           id="dislike_id_{{ Post.pk }}">
+        </a>
+    {% else %}
+        <a class="btn btn-danger glyphicon glyphicon-thumbs-down js-likes"
+           data-sign="{{ False }}" data-id="{{ Post.pk }}"
+           id="dislike_id_{{ Post.pk }}">
+        </a>
+    {% endif %}
 
     <a class="btn btn disabled" id="quest_like_{{ Post.pk }}">
         {% if Post.rate > 0 %}+{{ Post.rate }}
@@ -10,15 +19,22 @@
         {% endif %}
     </a>
 
-    <a class="btn btn-success glyphicon glyphicon-thumbs-up js-likes"
-        href="#" data-sign="{{ True }}" data-id="{{ Post.pk }}">
-    </a>
+    {% if Post|disable:User == True %}
+        <a class="btn btn-success glyphicon glyphicon-thumbs-up js-likes disabled"
+           data-sign="{{ True }}" data-id="{{ Post.pk }}"
+           id="like_id_{{ Post.pk }}">
+        </a>
+    {% else %}
+        <a class="btn btn-success glyphicon glyphicon-thumbs-up js-likes"
+           data-sign="{{ True }}" data-id="{{ Post.pk }}"
+           id="like_id_{{ Post.pk }}">
+        </a>
+    {% endif %}
 
 {% else %}
 
     <a class="btn btn-danger glyphicon glyphicon-thumbs-down" disabled
        title="Для оценивания вопросов необходимо зарегестрироваться"></a>
-
 
     <a class="btn btn disabled">
         {% if Post.rate > 0 %}+{{ Post.rate }}
