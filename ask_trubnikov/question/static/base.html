@@ -27,8 +27,11 @@
                         </div>
 
                         <div class="col-md-3 col-md-offset-1">
-                            {% load right_column %}
-                            {% show_tags_users %}
+                            {% load cache %}
+                            {% cache 300 right_side %}
+                                {% load right_column %}
+                                {% show_tags_users %}
+                            {% endcache %}
                         </div>
 
                     </div>

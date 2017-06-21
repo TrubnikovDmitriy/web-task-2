@@ -9,6 +9,7 @@ register = template.Library()
 def show_tags_users():
     tags_list = models.Tags.objects.get_popular()[:16]
     best_user = models.Profile.objects.get_best()[:7]
+    print("Cache")
     return {
         'tags_list': tags_list,
         'best_user': best_user
